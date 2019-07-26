@@ -1,0 +1,38 @@
+18:38:33.917 [main] ERROR LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to bind properties under 'spring.datasource' to javax.sql.DataSource:
+
+    Property: spring.datasource.filters
+    Value: stat,wall,log4j
+    Origin: class path resource [application-test.properties]:28:27
+    Reason: org.apache.log4j.Logger
+
+Action:
+
+Update your application's configuration
+
+18:41:28.028 [main] ERROR LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to bind properties under 'spring.datasource' to javax.sql.DataSource:
+
+    Property: spring.datasource.filters
+    Value: stat,wall,log4j
+    Origin: class path resource [application-test.properties]:28:27
+    Reason: org.apache.log4j.Logger
+
+Action:
+
+Update your application's configuration
+

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" scanPeriod="30 seconds">
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!-- 多环境设置 -->
+    <springProfile name="test">
+        <!--定义日志文件的存储地址-->
+        <property name="LOG_HOME" value="./log"/>
+        <property resource="application-test.properties" />
+    </springProfile>
+
+    <!-- 彩色日志 -->
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+    <!-- 彩色日志格式 -->
+
+    <!-- stdout start 所有信息输出到控制台 -->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} [line:%line] - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- stdout end -->
+    <appender name="time-rolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--<Encoding>UTF-8</Encoding>-->
+        <File>${LOG_HOME}/server.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/server.%d{yyyy-MM-dd}</FileNamePattern>
+            <maxHistory>5</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} [line:%line] - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印INFO日志 -->
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+
+    </appender>
+
+
+    <appender name="error-rolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--<Encoding>UTF-8</Encoding>-->
+        <File>${LOG_HOME}/server.error</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/server.error.%d{yyyy-MM-dd}</FileNamePattern>
+            <maxHistory>5</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{0} - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印错误日志 -->
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="log-trace-rolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--<Encoding>UTF-8</Encoding>-->
+        <File>${LOG_HOME}/log_trace.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/log_trace.log.%d{yyyy-MM-dd-HH}</FileNamePattern>
+            <maxHistory>24</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="sql-rolling" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--<Encoding>UTF-8</Encoding>-->
+        <File>${LOG_HOME}/sql.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/sql.log.%d{yyyy-MM-dd-HH}</FileNamePattern>
+            <maxHistory>24</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- 针对个别包日志可以进行单独的设置级别，用于过滤 -->
+    <!--打印sql日志-->
+    <logger name="com.sohu.springbootdemo.Dao" additivity="false" level="DEBUG">
+        <appender-ref ref="sql-rolling"/>
+    </logger>
+    <logger name="log-trace" additivity="false" level="INFO">
+        <appender-ref ref="log-trace-rolling"/>
+    </logger>
+    <logger name="org.apache.zookeeper.ZooKeeper" additivity="false" level="ERROR">
+        <appender-ref ref="time-rolling"/>
+    </logger>
+    <logger name="org.apache.zookeeper.ClientCnxn" additivity="false" level="ERROR">
+        <appender-ref ref="time-rolling"/>
+    </logger>
+
+    <!-- zookeeper-->
+    <logger name="org.apache.zookeeper"    level="ERROR"  />
+
+    <!-- dubbo -->
+    <logger name="com.alibaba.dubbo.monitor" level="ERROR"/>
+    <logger name="com.alibaba.dubbo.remoting" level="ERROR" />
+
+    <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
+    <logger name="org.springframework" level="ERROR"/>
+    <logger name="org.mybatis" level="ERROR"/>
+    <logger name="com.baiding" level="ERROR"/>
+
+
+    <!--打印到控制台-->
+    <!--<springProfile name="test">-->
+        <!--<logger name="com.sohu.springbootdemo" level="debug"/>-->
+    <!--</springProfile>-->
+
+    <root level="info">
+        <appender-ref ref="time-rolling"/>
+        <appender-ref ref="error-rolling"/>
+        <appender-ref ref="stdout"/>
+    </root>
+
+    <!--输出到文件-->
+    <!--<springProfile name="online">-->
+        <!--<root level="info">-->
+            <!--<appender-ref ref="time-rolling"/>-->
+            <!--<appender-ref ref="error-rolling"/>-->
+            <!--<appender-ref ref="stdout"/>-->
+        <!--</root>-->
+    <!--</springProfile>-->
+
+</configuration>

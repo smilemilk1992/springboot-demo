@@ -1,0 +1,18 @@
+16:11:24.260 [http-nio-8888-exec-1] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - ==>  Preparing: select id, cityName, areName, forumName, domainName, typeName, subject, dateline, url, subjectContent, answerContent from p_content_dflybds where id = ? 
+16:11:24.280 [http-nio-8888-exec-1] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - ==> Parameters: 500011(Integer)
+16:11:24.301 [http-nio-8888-exec-1] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - <==      Total: 1
+16:12:17.186 [http-nio-8888-exec-3] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - ==>  Preparing: select id, cityName, areName, forumName, domainName, typeName, subject, dateline, url, subjectContent, answerContent from p_content_dflybds where id = ? 
+16:12:17.186 [http-nio-8888-exec-3] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - ==> Parameters: 500022(Integer)
+16:12:17.189 [http-nio-8888-exec-3] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - <==      Total: 1
+16:22:52.943 [http-nio-8888-exec-1] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - ==>  Preparing: select id, cityName, areName, forumName, domainName, typeName, subject, dateline, url, subjectContent, answerContent from p_content_dflybds where id = ? 
+16:22:52.964 [http-nio-8888-exec-1] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - ==> Parameters: 500022(Integer)
+16:22:52.983 [http-nio-8888-exec-1] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - <==      Total: 1
+16:43:09.976 [http-nio-8888-exec-3] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - ==>  Preparing: select id, cityName, areName, forumName, domainName, typeName, subject, dateline, url, subjectContent, answerContent from p_content_dflybds where id = ? 
+16:43:10.001 [http-nio-8888-exec-3] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - ==> Parameters: 500001(Integer)
+16:43:10.025 [http-nio-8888-exec-3] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - <==      Total: 1
+16:43:14.318 [http-nio-8888-exec-4] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - ==>  Preparing: select id, cityName, areName, forumName, domainName, typeName, subject, dateline, url, subjectContent, answerContent from p_content_dflybds where id = ? 
+16:43:14.319 [http-nio-8888-exec-4] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - ==> Parameters: 500001(Integer)
+16:43:14.320 [http-nio-8888-exec-4] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - <==      Total: 1
+16:43:15.235 [http-nio-8888-exec-5] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - ==>  Preparing: select id, cityName, areName, forumName, domainName, typeName, subject, dateline, url, subjectContent, answerContent from p_content_dflybds where id = ? 
+16:43:15.236 [http-nio-8888-exec-5] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - ==> Parameters: 500001(Integer)
+16:43:15.237 [http-nio-8888-exec-5] DEBUG com.sohu.springbootdemo.Dao.PnewsContentMapper.selectByPrimaryKey - <==      Total: 1
