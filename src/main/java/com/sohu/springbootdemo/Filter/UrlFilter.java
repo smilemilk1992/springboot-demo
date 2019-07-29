@@ -4,6 +4,7 @@ package com.sohu.springbootdemo.Filter;
 import com.sohu.springbootdemo.controller.TestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -16,6 +17,7 @@ import java.io.IOException;
  * 过滤器不在启动器的扫描范围，必须手动添加
  * @ServletComponentScan(basePackages = {"com.sohu.springbootdemo.Filter"})
  */
+@Configuration
 @WebFilter(filterName = "urlfilter",urlPatterns = "/test/success/*")
 public class UrlFilter implements Filter {
     private static final Logger logger = LoggerFactory.getLogger(UrlFilter.class);

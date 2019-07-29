@@ -3,21 +3,21 @@ package com.sohu.springbootdemo.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sohu.springbootdemo.Model.PnewsContent;
-import com.sohu.springbootdemo.Server.PcontentServer;
+import com.sohu.springbootdemo.Model.PnewsGoodreads;
+import com.sohu.springbootdemo.Model.PnewsGoodreadsExample;
+import com.sohu.springbootdemo.Server.impl.GoodreadsServerImpl;
+import com.sohu.springbootdemo.Server.impl.PnewscontentServerImpl;
 import com.sohu.springbootdemo.Utils.JSonUtil;
 import com.sohu.springbootdemo.Utils.ListObject;
 import com.sohu.springbootdemo.Utils.ResponseUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.LoggerFactory;
-import javax.annotation.Resource;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,14 +27,17 @@ import java.util.Map;
  * @author haochen
  * @date 2019/7/25 11:28
  */
-//@Controller  不用指定一级域名
+//@Controller  //不用指定一级域名
 @RestController
 @RequestMapping(value = "/test")
 public class TestController {
     private static final Logger logger = LoggerFactory.getLogger(TestController.class);
 
     @Autowired
-    private PcontentServer pcontentServer;
+    private PnewscontentServerImpl pnewscontentServerImpl;
+
+    @Autowired
+    private GoodreadsServerImpl goodreadsServerImpl;
 
     @ResponseBody
     @RequestMapping("/failed")
@@ -105,7 +108,7 @@ public class TestController {
             listObject.setMsg("参数错误");
             listObject.setCostTm(System.currentTimeMillis()-startTm);
         }else {
-            PnewsContent pnewsContent=pcontentServer.getContent(Integer.valueOf(id));
+            PnewsContent pnewsContent=pnewscontentServerImpl.getContent(Integer.valueOf(id));
             if(pnewsContent==null){
                 listObject.setCode("C0002");
                 listObject.setMsg("访问错误");
@@ -115,6 +118,45 @@ public class TestController {
                 listObject.setMsg("访问成功");
                 listObject.setCostTm(System.currentTimeMillis()-startTm);
                 JSONObject jsonObject= (JSONObject) JSON.toJSON(pnewsContent);
+                list.add(jsonObject);
+                listObject.setItems(list);
+            }
+        }
+        logger.info(String.valueOf(JSONObject.toJSON(listObject)));
+        ResponseUtils.renderJson(response,JSonUtil.toJson(listObject));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/goodreads/getinfo",method={RequestMethod.POST,RequestMethod.GET},produces = "application/json; charset=utf-8")  //注解为控制器指定可以处理哪些 URL 请求
+    public void getGoodreadsInfo(HttpServletRequest request, HttpServletResponse response){
+        long startTm=System.currentTimeMillis();
+        String cudosid = request.getParameter("cudosid");
+        String goodreadsId = request.getParameter("goodreadsId");
+        ListObject listObject = new ListObject();
+        List<JSONObject> list = new ArrayList<JSONObject>();
+        if((cudosid==null)&&(goodreadsId==null)){
+            listObject.setCode("C0001");
+            listObject.setMsg("参数错误");
+            listObject.setCostTm(System.currentTimeMillis()-startTm);
+        }else {
+            PnewsGoodreadsExample pnewsGoodreadsExample=new PnewsGoodreadsExample();
+            if(cudosid!=null && !cudosid.equals("")){
+                pnewsGoodreadsExample.or().andCudosidEqualTo(Integer.valueOf(cudosid));
+            }
+
+            if(goodreadsId!=null && !goodreadsId.equals("")){
+                pnewsGoodreadsExample.or().andGoodreadsidEqualTo(Integer.valueOf(goodreadsId));
+            }
+            List<PnewsGoodreads> pnewsGoodreads=goodreadsServerImpl.getContent(pnewsGoodreadsExample);
+            if(pnewsGoodreads==null){
+                listObject.setCode("C0002");
+                listObject.setMsg("访问错误");
+                listObject.setCostTm(System.currentTimeMillis()-startTm);
+            }else {
+                listObject.setCode("C0000");
+                listObject.setMsg("访问成功");
+                listObject.setCostTm(System.currentTimeMillis()-startTm);
+                JSONObject jsonObject= (JSONObject) JSON.toJSON(pnewsGoodreads.get(0));
                 list.add(jsonObject);
                 listObject.setItems(list);
             }

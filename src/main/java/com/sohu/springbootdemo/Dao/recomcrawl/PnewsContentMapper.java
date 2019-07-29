@@ -1,4 +1,4 @@
-package com.sohu.springbootdemo.Dao;
+package com.sohu.springbootdemo.Dao.recomcrawl;
 
 import com.sohu.springbootdemo.Model.PnewsContent;
 import com.sohu.springbootdemo.Model.PnewsContentExample;

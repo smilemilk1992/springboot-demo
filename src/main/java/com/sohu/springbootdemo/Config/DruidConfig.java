@@ -12,6 +12,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 
+//等同于component组件。
 @Configuration
 public class DruidConfig {
     @Bean
@@ -24,7 +25,6 @@ public class DruidConfig {
         servletRegistrationBean.addInitParameter("loginPassword", "root");//密码
         servletRegistrationBean.addInitParameter("resetEnable", "false");//是否可以重置数据源
         return servletRegistrationBean;
-
     }
     @Bean    //监控
     public FilterRegistrationBean filterRegistrationBean(){
