@@ -13,16 +13,22 @@ import com.sohu.springbootdemo.Utils.ListObject;
 import com.sohu.springbootdemo.Utils.ResponseUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author haochen
@@ -39,6 +45,15 @@ public class TestController {
 
     @Autowired
     private GoodreadsServerImpl goodreadsServerImpl;
+
+//    @Autowired
+//    StringRedisTemplate stringRedisTemplate;
+
+    @Resource(name = "redisTemplateB")
+    private RedisTemplate redisTemplateB;
+
+    @Resource(name = "redisTemplateA")
+    private RedisTemplate redisTemplateA;
 
     @ResponseBody
     @RequestMapping("/failed")
@@ -122,6 +137,13 @@ public class TestController {
                 JSONObject jsonObject= (JSONObject) JSON.toJSON(pnewsContent);
                 list.add(jsonObject);
                 listObject.setItems(list);
+//                redisTemplateA.opsForValue().set(id, jsonObject.toString(),Duration.ofSeconds(100));
+//                redisTemplateA.opsForValue().set(id, jsonObject.toString(),10,TimeUnit.SECONDS);
+                redisTemplateA.opsForValue().set(id, jsonObject.toString());
+                redisTemplateA.expire(id,10,TimeUnit.SECONDS);
+
+                redisTemplateB.opsForList().leftPush(id, jsonObject.toString());
+                redisTemplateB.expire(id,10,TimeUnit.SECONDS);
             }
         }
         logger.info(String.valueOf(JSONObject.toJSON(listObject)));
