@@ -17,7 +17,7 @@ import java.io.IOException;
  * 过滤器不在启动器的扫描范围，必须手动添加
  * @ServletComponentScan(basePackages = {"com.sohu.springbootdemo.Filter"})
  */
-@Configuration
+//@Configuration
 @WebFilter(filterName = "urlfilter",urlPatterns = "/test/success/*")
 public class UrlFilter implements Filter {
     private static final Logger logger = LoggerFactory.getLogger(UrlFilter.class);
@@ -31,7 +31,7 @@ public class UrlFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         String requestURI = req.getRequestURI();
         logger.info("--------------------->过滤器：请求地址"+requestURI);
-        if(!requestURI.contains("info")){
+        if(!requestURI.contains("info")&&!requestURI.contains("druid")){
             servletRequest.getRequestDispatcher("/test/failed").forward(servletRequest, servletResponse);
         }else{
             filterChain.doFilter(servletRequest, servletResponse);

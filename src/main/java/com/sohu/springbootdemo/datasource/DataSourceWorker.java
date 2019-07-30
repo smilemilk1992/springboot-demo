@@ -20,8 +20,8 @@ import javax.sql.DataSource;
 /**
  * Created by summer on 2016/11/25.
  */
-@Configuration
-@MapperScan(basePackages = "com.sohu.springbootdemo.Dao.recomworker", sqlSessionTemplateRef  = "workerSqlSessionTemplate")
+//@Configuration
+//@MapperScan(basePackages = "com.sohu.springbootdemo.Dao.recomworker", sqlSessionTemplateRef  = "workerSqlSessionTemplate")
 public class DataSourceWorker {
 
 

@@ -31,7 +31,7 @@ public class DruidConfig {
         FilterRegistrationBean filterRegistrationBean=new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new WebStatFilter());
         filterRegistrationBean.addUrlPatterns("/*");//所有请求进行监控处理
-        filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.css,/druid/*");//排除
+        filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");//排除
         return filterRegistrationBean;
     }
     @Bean

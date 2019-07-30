@@ -2,6 +2,7 @@ package com.sohu.springbootdemo.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.sohu.springbootdemo.AopTest.StatisticsTime.AnalysisActuator;
 import com.sohu.springbootdemo.Model.PnewsContent;
 import com.sohu.springbootdemo.Model.PnewsGoodreads;
 import com.sohu.springbootdemo.Model.PnewsGoodreadsExample;
@@ -97,8 +98,9 @@ public class TestController {
     }
 
     @ResponseBody
+    @AnalysisActuator(note = "获取物料信息")
     @RequestMapping(value = "/getinfo",method={RequestMethod.POST,RequestMethod.GET},produces = "application/json; charset=utf-8")  //注解为控制器指定可以处理哪些 URL 请求
-    public void getinfo(HttpServletRequest request, HttpServletResponse response){
+    public Object getinfo(HttpServletRequest request, HttpServletResponse response){
         long startTm=System.currentTimeMillis();
         String id = request.getParameter("id");
         ListObject listObject = new ListObject();
@@ -123,12 +125,13 @@ public class TestController {
             }
         }
         logger.info(String.valueOf(JSONObject.toJSON(listObject)));
-        ResponseUtils.renderJson(response,JSonUtil.toJson(listObject));
+        return JSONObject.toJSON(listObject);
+//        ResponseUtils.renderJson(response,JSonUtil.toJson(listObject));
     }
 
     @ResponseBody
     @RequestMapping(value = "/goodreads/getinfo",method={RequestMethod.POST,RequestMethod.GET},produces = "application/json; charset=utf-8")  //注解为控制器指定可以处理哪些 URL 请求
-    public void getGoodreadsInfo(HttpServletRequest request, HttpServletResponse response){
+    public Object getGoodreadsInfo(HttpServletRequest request, HttpServletResponse response){
         long startTm=System.currentTimeMillis();
         String cudosid = request.getParameter("cudosid");
         String goodreadsId = request.getParameter("goodreadsId");
@@ -162,6 +165,7 @@ public class TestController {
             }
         }
         logger.info(String.valueOf(JSONObject.toJSON(listObject)));
-        ResponseUtils.renderJson(response,JSonUtil.toJson(listObject));
+        return JSONObject.toJSON(listObject);
+//        ResponseUtils.renderJson(response,JSonUtil.toJson(listObject));
     }
 }

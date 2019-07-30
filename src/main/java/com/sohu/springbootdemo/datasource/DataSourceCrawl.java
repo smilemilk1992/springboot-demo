@@ -18,11 +18,12 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 /**
+ * 配置方法一
  * Created by hao on 2019/07/29.
  * @description 多数据源配置类
  */
-@Configuration
-@MapperScan(basePackages = "com.sohu.springbootdemo.Dao.recomcrawl", sqlSessionTemplateRef  = "crawlSqlSessionTemplate")
+//@Configuration
+//@MapperScan(basePackages = "com.sohu.springbootdemo.Dao.recomcrawl", sqlSessionTemplateRef  = "crawlSqlSessionTemplate")
 public class DataSourceCrawl {
 
     // 获取映射文件所在的路径
