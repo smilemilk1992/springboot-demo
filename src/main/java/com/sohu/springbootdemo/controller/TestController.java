@@ -13,9 +13,10 @@ import com.sohu.springbootdemo.Utils.ListObject;
 import com.sohu.springbootdemo.Utils.ResponseUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +24,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +46,12 @@ public class TestController {
     @Autowired
     private GoodreadsServerImpl goodreadsServerImpl;
 
+    @Value("${mail.fromMail.sender}")
+    private String sender;
+
+
+    @Resource
+    private JavaMailSender javaMailSender;
 //    @Autowired
 //    StringRedisTemplate stringRedisTemplate;
 
@@ -54,6 +60,31 @@ public class TestController {
 
     @Resource(name = "redisTemplateA")
     private RedisTemplate redisTemplateA;
+
+
+    @RequestMapping(value = "/sendMail",method={RequestMethod.POST,RequestMethod.GET})
+    public JSONObject sendMail(HttpServletRequest request) {
+        JSONObject result = new JSONObject();
+        SimpleMailMessage message = new SimpleMailMessage();
+
+        String Subject = request.getParameter("Subject");
+        String TextContent = request.getParameter("TextContent");
+        String receiver =request.getParameter("receiver");
+        message.setSubject(Subject);
+        message.setText(TextContent);
+        message.setFrom(sender);
+        message.setTo(receiver);
+        result.put("subject",Subject);
+        result.put("text",TextContent);
+        try {
+            result.put("status","success");
+            javaMailSender.send(message);
+        } catch (Exception e) {
+            logger.error("发送简单邮件时发生异常！", e);
+            result.put("status","fail");
+        }
+        return result;
+    }
 
     @ResponseBody
     @RequestMapping("/failed")
@@ -68,7 +99,6 @@ public class TestController {
     @ResponseBody
     @RequestMapping("/success/info")
     public String userInfo(){
-
         return "success";
     }
     @ResponseBody
